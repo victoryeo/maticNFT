@@ -5,16 +5,12 @@ const HDWalletProvider = require('@truffle/hdwallet-provider');
 const fs = require('fs');
 const mnemonic = fs.readFileSync(".secret").toString().trim();
 
-const ganachehost = 'http://localhost:9545'
+const API_KEY = process.env.API_KEY
 
-// example web3 using testnet
-//const web3 = new Web3(new Web3.providers.HttpProvider(ganachehost))
+const MUMBAI = `https://rpc-mumbai.maticvigil.com/v1/${API_KEY}`
+const MATIC = `https://rpc-mainnet.maticvigil.com/v1/${API_KEY}`
 
-// example web3 using infura
-const INFURA_PROJ_ID = process.env.INFURA_PROJ_ID
-
-const provider = new HDWalletProvider(mnemonic,
-  `https://rinkeby.infura.io/v3/${INFURA_PROJ_ID}`);
+const provider = new HDWalletProvider(mnemonic, MUMBAI);
   
 const web3 = new Web3(provider);
 
@@ -31,25 +27,28 @@ const PRIVATE_KEY = process.env.PRIVATE_KEY;
 
 async function mintNFT(tokenURI) {
   let accounts = await web3.eth.getAccounts()
-  //console.log(accounts[0])
+  console.log(accounts[0])
   
   //get latest nonce
   const nonce = await web3.eth.getTransactionCount(accounts[0], "latest")
-  //console.log(nonce)
-
-  //const tokenId = await nftInst.methods.mintNFT(accounts[0], tokenURI)
-  //console.log(tokenId)
-
-  //the transaction
-  const tx = {
-    from: accounts[0],
-    to: nftAddress,
-    nonce: nonce,
-    gas: 500000,
-    data: nftInst.methods.mintNFT(accounts[0], tokenURI).encodeABI(),
-  }
+  console.log(nonce)
 
   try {
+    // method 1
+    const token = await nftInst.methods
+      .mintNFT(accounts[0], tokenURI)
+      .send({from: accounts[0]})
+    console.log(token.transactionHash)
+
+    // method 2
+    /*const tx = {
+      from: accounts[0],
+      to: nftAddress,
+      nonce: nonce,
+      gas: 500000,
+      data: nftInst.methods.mintNFT(accounts[0], tokenURI).encodeABI(),
+    }
+
     const signedTx = await web3.eth.accounts.signTransaction(tx, PRIVATE_KEY)
     const hash = await web3.eth.sendSignedTransaction(signedTx.rawTransaction)      
     if (hash) {
@@ -62,13 +61,15 @@ async function mintNFT(tokenURI) {
       const tokenId = 1
       const uri = await nftInst.methods.tokenURI(tokenId).call()
       console.log(`token URI: ${uri}`)
-    }
-  } catch(err) {
-      console.log("Promise failed:", err)
+    } */
+
+  } catch (err) {
+    console.log(err)
   }
+
 }
 
 mintNFT(
   // metadata hashcode QmYueiuRNmL4....is from pinata
-  "https://gateway.pinata.cloud/ipfs/QmbusPfav5k4R6hLg76PTTWH16r1ekAYKSg5vaSuKR9mQD"
+  "https://gateway.pinata.cloud/ipfs/QmZKHPQU9HW1QUSMHYJNEkNJGSUTYHnobw2ZxD7S3g1QJ1"
 )
