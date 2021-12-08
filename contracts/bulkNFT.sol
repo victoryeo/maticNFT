@@ -7,6 +7,8 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 
+import "hardhat/console.sol";
+
 contract bulkNFT is ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
@@ -20,7 +22,8 @@ contract bulkNFT is ERC721URIStorage, Ownable {
       // call erc721 _mint
       // _mint emits an event each time
       for (uint i = 0; i < NUM; i++) {
-        super._mint(recipiency[i], i);
+        //comment out if want to do mintManyNFT
+        //super._mint(recipiency[i], i);
       }
     }
 
@@ -49,6 +52,24 @@ contract bulkNFT is ERC721URIStorage, Ownable {
         _setTokenURI(newItemId, tokenURI);
 
         return newItemId;
+    }
+
+    function mintManyNFT(address[] memory recipients, string memory tokenURI)
+        public onlyOwner
+        returns (uint256)
+    {
+        uint256 newItemId;
+        console.log("length %d", recipients.length);
+        for (uint i = 0; i < recipients.length; i++) {
+          console.log("recipient %s", recipients[i]);
+
+          _tokenIds.increment();
+          newItemId = _tokenIds.current();
+          _mint(recipients[i], newItemId);
+          _setTokenURI(newItemId, tokenURI);
+        }
+
+        return recipients.length;
     }
 
     function updateNFT(uint256 tokenId, string memory tokenURI)
