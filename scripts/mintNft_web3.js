@@ -14,7 +14,7 @@ const provider = new HDWalletProvider(mnemonic, MUMBAI);
   
 const web3 = new Web3(provider);
 
-const nftContract = require("../artifacts/contracts/maticNFT.sol/maticNFT.json");
+const nftContract = require("../artifacts/contracts/bulkNFT.sol/bulkNFT.json");
 
 // nft contract address
 const nftAddress = process.env.NFT_CONTRACT_ADDRESS;
@@ -35,10 +35,10 @@ async function mintNFT(tokenURI) {
 
   try {
     // method 1
-    const token = await nftInst.methods
+    /*const token = await nftInst.methods
       .mintNFT(accounts[0], tokenURI)
       .send({from: accounts[0]})
-    console.log(token.transactionHash)
+    console.log(token.transactionHash)*/
 
     // method 2
     /*const tx = {
@@ -62,6 +62,13 @@ async function mintNFT(tokenURI) {
       const uri = await nftInst.methods.tokenURI(tokenId).call()
       console.log(`token URI: ${uri}`)
     } */
+
+    // method 3 , bulk minting
+    const addresses = ["0xE0f5206BBD039e7b0592d8918820024e2a7437b9",
+    "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245201"]
+    var getData = await nftInst.methods.mintManyNFT(addresses, tokenURI)
+                .send({from: accounts[0]})
+    console.log(getData)
 
   } catch (err) {
     console.log(err)
