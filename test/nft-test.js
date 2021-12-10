@@ -28,7 +28,7 @@ describe("test NFT", function () {
     const maticNFT = await MaticNFT.deploy();
     await maticNFT.deployed();
 
-    const tokenURI="https://gateway.pinata.cloud/ipfs/QmNNaRsvHaYr72Ce1KXJDdNX4UCxw66yHe7ECyMwvRUiHE"
+    const tokenURI="https://gateway.pinata.cloud/ipfs/QmSsA55c47dLc6K4Cn7uTSwjegsxaG45UEuNyhAEzvyBDh"
 
     const addresses = ["0xE0f5206BBD039e7b0592d8918820024e2a7437b9",
     "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245201"]
