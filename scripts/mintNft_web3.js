@@ -86,6 +86,11 @@ async function bulkMintNFT(tokenURI) {
                 .send({from: accounts[0]})
     console.log(getData)
 
+    // estimate gas
+    var getData = await nftInst.methods.mintManyNFT(addresses, tokenURI)
+      .estimateGas({from: accounts[0]})
+    console.log(getData)
+
   } catch (err) {
     console.log(err)
   }
