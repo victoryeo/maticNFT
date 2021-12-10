@@ -35,10 +35,10 @@ async function mintNFT(tokenURI) {
 
   try {
     // method 1
-    /*const token = await nftInst.methods
+    const token = await nftInst.methods
       .mintNFT(accounts[0], tokenURI)
       .send({from: accounts[0]})
-    console.log(token.transactionHash)*/
+    console.log(token.transactionHash)
 
     // method 2
     /*const tx = {
@@ -63,7 +63,23 @@ async function mintNFT(tokenURI) {
       console.log(`token URI: ${uri}`)
     } */
 
-    // method 3 , bulk minting
+  } catch (err) {
+    console.log(err)
+  }
+
+}
+
+async function bulkMintNFT(tokenURI) {
+  let accounts = await web3.eth.getAccounts()
+  console.log(accounts[0])
+  
+  //get latest nonce
+  const nonce = await web3.eth.getTransactionCount(accounts[0], "latest")
+  console.log(nonce)
+
+  try {
+
+    // bulk minting
     const addresses = ["0xE0f5206BBD039e7b0592d8918820024e2a7437b9",
     "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245201"]
     var getData = await nftInst.methods.mintManyNFT(addresses, tokenURI)
@@ -75,6 +91,11 @@ async function mintNFT(tokenURI) {
   }
 
 }
+
+bulkMintNFT(
+  // metadata hashcode QmYueiuRNmL4....is from pinata
+  "https://gateway.pinata.cloud/ipfs/QmSsA55c47dLc6K4Cn7uTSwjegsxaG45UEuNyhAEzvyBDh"
+)
 
 mintNFT(
   // metadata hashcode QmYueiuRNmL4....is from pinata
