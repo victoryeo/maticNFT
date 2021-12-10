@@ -54,11 +54,40 @@ contract bulkNFT is ERC721URIStorage, Ownable {
         return newItemId;
     }
 
+    function uint2str(uint _i) internal pure returns (string memory _uintAsString) {
+        if (_i == 0) {
+            return "0";
+        }
+        uint j = _i;
+        uint len;
+        while (j != 0) {
+            len++;
+            j /= 10;
+        }
+        bytes memory bstr = new bytes(len);
+        uint k = len;
+        while (_i != 0) {
+            k = k-1;
+            uint8 temp = (48 + uint8(_i - _i / 10 * 10));
+            bytes1 b1 = bytes1(temp);
+            bstr[k] = b1;
+            _i /= 10;
+        }
+        return string(bstr);
+    }
+
+    function append(string memory a, string memory b, string memory c, string memory d) 
+      internal pure returns (string memory) {
+        return string(abi.encodePacked(a, b, c, d));
+    }
+
     function mintManyNFT(address[] memory recipients, string memory tokenURI)
         public onlyOwner
         returns (uint256)
     {
         uint256 newItemId;
+        string memory newTokenURI;
+        string memory integerIndex;
         console.log("length %d", recipients.length);
         for (uint i = 0; i < recipients.length; i++) {
           console.log("recipient %s", recipients[i]);
@@ -66,7 +95,11 @@ contract bulkNFT is ERC721URIStorage, Ownable {
           _tokenIds.increment();
           newItemId = _tokenIds.current();
           _mint(recipients[i], newItemId);
-          _setTokenURI(newItemId, tokenURI);
+
+          integerIndex = uint2str(i);
+          newTokenURI = append(tokenURI, '/',integerIndex, '.json');
+          console.log(newTokenURI);
+          _setTokenURI(newItemId, newTokenURI);
         }
 
         return recipients.length;
