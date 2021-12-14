@@ -63,6 +63,16 @@ async function mintNFT(tokenURI) {
       console.log(`token URI: ${uri}`)
     } */
 
+    // estimate gas
+    let gasnum = 0
+    for (let i = 0; i < 10  ; i++) {
+      let data = await nftInst.methods
+        .mintNFT(accounts[0], tokenURI)
+        .estimateGas({from: accounts[0]})  
+      gasnum += data
+    }
+    console.log(gasnum)
+
   } catch (err) {
     console.log(err)
   }
@@ -81,6 +91,14 @@ async function bulkMintNFT(tokenURI) {
 
     // bulk minting
     const addresses = ["0xE0f5206BBD039e7b0592d8918820024e2a7437b9",
+    "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245201",
+    "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245201",
+    "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245201",
+    "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245201",
+    "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245201",
+    "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245201",
+    "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245201",
+    "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245201",
     "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245201"]
     var getData = await nftInst.methods.mintManyNFT(addresses, tokenURI)
                 .send({from: accounts[0]})
