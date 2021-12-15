@@ -103,7 +103,7 @@ readCSV('./test.csv')
       // metadata hashcode QmYueiuRNmL4....is from pinata
       "https://gateway.pinata.cloud/ipfs/QmSsA55c47dLc6K4Cn7uTSwjegsxaG45UEuNyhAEzvyBDh"
     )
+  })
   .catch(err => {
     console.warn(err)
   })
-})
