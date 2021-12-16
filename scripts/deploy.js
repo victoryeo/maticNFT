@@ -1,9 +1,8 @@
 async function main() {
-  /*const MaticNFT = await ethers.getContractFactory("maticNFT")
-
+  const MaticNFT = await ethers.getContractFactory("maticNFT")
   // Start deployment, returning a promise that resolves to a contract object
   const maticNFT = await MaticNFT.deploy()
-  console.log("Contract deployed to address:", maticNFT.address)*/
+  console.log("Contract deployed to address:", maticNFT.address)
 
   const BulkNFT = await ethers.getContractFactory("bulkNFT")
   // Start deployment, returning a promise that resolves to a contract object
