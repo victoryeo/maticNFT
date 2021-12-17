@@ -13,8 +13,14 @@ const { mnemonic, api_key } = require('../.secret.json');
 const MUMBAI = `https://rpc-mumbai.maticvigil.com/v1/${api_key}`
 const MATIC = `https://rpc-mainnet.maticvigil.com/v1/${api_key}`
 
-const provider = new HDWalletProvider(mnemonic, MUMBAI);
-  
+console.log(process.env.NODE_ENV)
+let provider: HDWalletProvider
+if (process.env.NODE_ENV === 'prod') {
+  provider = new HDWalletProvider(mnemonic, MATIC);
+} else {
+  provider = new HDWalletProvider(mnemonic, MUMBAI);
+}
+
 const web3 = new Web3(provider);
 
 const nftContract = require("../artifacts/contracts/bulkNFT.sol/bulkNFT.json");
