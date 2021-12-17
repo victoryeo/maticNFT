@@ -61,6 +61,7 @@ async function bulkMintNFT(tokenURI:string) {
   // parsing the data
   csvData.filter((item, i) => {
     // match anything but double quotes , comma , or spaces
+    // followed by spaces and comma
     const processRE: RegExpMatchArray | null = String(item).match(/([^",\s]+)(?=\s*,|\s*$)/g)
     if (processRE) 
       // third column contains the wallet address
