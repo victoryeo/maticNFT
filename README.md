@@ -1,6 +1,6 @@
 # NFT with hardhat on Matic Mumbai testnet
 
-This project demonstrates a basic NFT with Hardhat. 
+This project demonstrates a basic NFT and bulk minting NFT using Hardhat. 
 
 hardhat
 ```shell
@@ -25,4 +25,9 @@ to mint NFT, run
 ```
 node scripts/mintNft_ethers.js
 node scripts/mintNft_web3.js
+```
+to mint NFT using npm command that calls typescript
+```
+npm run mint:mumbai
+npm run mint:matic
 ```
