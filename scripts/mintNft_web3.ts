@@ -36,19 +36,33 @@ let nftInst = new web3.eth.Contract(
   nftContract.abi, nftAddress
 )
 
-function readCSV(filePath: string) {
+interface Parts {
+  partNo: string;
+  serialNo: string;
+  location: string,
+  description: string;
+}
+
+function readCSV(filePath: string): Promise<Parts[]> {
   return new Promise ((resolve, reject) => {
     console.log(filePath)
+    const parts: Parts[] = []
     fs.createReadStream(filePath)
-      .pipe(parse({delimiter: ':'}))
+      .pipe(parse({delimiter: ','}))
       .on('data', (csvrow:string) => {
           console.log(csvrow);
           //do something with csvrow
-          csvData.push(csvrow);        
+          csvData.push(csvrow);  
+          parts.push({
+            partNo: csvrow[0],
+            serialNo: csvrow[1],
+            location: csvrow[2],
+            description: csvrow[3],
+          });      
       })
       .on('end', () => {
         //do something with csvData
-        resolve('parsing end')
+        resolve(parts)
       })
       .on('error', () => {
         reject('parsing error')
