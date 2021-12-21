@@ -89,32 +89,32 @@ async function bulkMintNFT(tokenURI:string) {
     
   })
   console.log(addresses)
-  try {
 
+  try {
     // bulk minting
-    /*let addressesii = ["0xE0f5206BBD039e7b0592d8918820024e2a7437b9",
-    "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245201",
-    "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245201",
-    "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245201",
-    "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245201",
-    "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245201",
-    "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245201",
-    "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245201",
-    "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245201",
-    "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245201"]*/
-    var getData0 = await nftInst.methods.mintManyNFT(addresses, tokenURI)
-                .send({from: accounts[0]})
-    console.log(getData0)
+    let addressesii = [
+      "0xE0f5206BBD039e7b0592d8918820024e2a7437b9",
+      "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245201",
+      "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245201",
+      "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245201",
+      "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245201",
+      "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245201",
+      "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245201",
+      "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245201",
+      "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245201",
+      "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245201"]
+    //var getData0 = await nftInst.methods.mintManyNFT(addressesii, tokenURI)
+    //            .send({from: accounts[0]})
+    //console.log(getData0)
 
     // estimate gas
-    var getData1 = await nftInst.methods.mintManyNFT(addresses, tokenURI)
+    var getData1 = await nftInst.methods.mintManyNFT(addressesii, tokenURI)
       .estimateGas({from: accounts[0]})
     console.log(getData1)
 
   } catch (err) {
     console.log(err)
-  }
-
+  } 
 }
 
 readCSV('./test.csv')
