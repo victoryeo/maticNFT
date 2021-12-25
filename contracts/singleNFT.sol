@@ -7,11 +7,11 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 
-contract maticNFT is ERC721URIStorage, Ownable {
+contract singleNFT is ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
 
-    constructor() ERC721("maticNFT", "NFT") {}
+    constructor() ERC721("singleNFT", "NFT") {}
 
     //get the current supply of tokens
     function totalSupply() public view returns (uint256) {

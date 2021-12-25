@@ -14,9 +14,9 @@ contract bulkNFT is ERC721URIStorage, Ownable {
     Counters.Counter private _tokenIds;
     uint constant NUM = 2;
     address[] _recipients;
-    string private _BaseURI;
+    string private __baseURI;
 
-    constructor() ERC721("maticNFT", "NFT") {
+    constructor() ERC721("bulkNFT", "NFT") {
       // hardcoded address for testing
       _recipients.push(0xE0f5206BBD039e7b0592d8918820024e2a7437b9);
       _recipients.push(0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245201);
@@ -39,7 +39,7 @@ contract bulkNFT is ERC721URIStorage, Ownable {
 
     // for opensea collection
     function tokenURI(uint256 tokenId_) public view override returns (string memory) {
-      return bytes(_BaseURI).length > 0 ? string(abi.encodePacked("ipfs://", _BaseURI, "/", uint2str(tokenId_), ".json")) : "";
+      return bytes(__baseURI).length > 0 ? string(abi.encodePacked("ipfs://", __baseURI, "/", uint2str(tokenId_), ".json")) : "";
     }
 
     function mintNFT(address recipient_, string memory tokenURI_)
@@ -55,11 +55,11 @@ contract bulkNFT is ERC721URIStorage, Ownable {
         return newItemId;
     }
 
-    function uint2str(uint _i) internal pure returns (string memory _uintAsString) {
-        if (_i == 0) {
+    function uint2str(uint i_) internal pure returns (string memory _uintAsString) {
+        if (i_ == 0) {
             return "0";
         }
-        uint j = _i;
+        uint j = i_;
         uint len;
         while (j != 0) {
             len++;
@@ -67,12 +67,12 @@ contract bulkNFT is ERC721URIStorage, Ownable {
         }
         bytes memory bstr = new bytes(len);
         uint k = len;
-        while (_i != 0) {
+        while (i_ != 0) {
             k = k-1;
-            uint8 temp = (48 + uint8(_i - _i / 10 * 10));
+            uint8 temp = (48 + uint8(i_ - i_ / 10 * 10));
             bytes1 b1 = bytes1(temp);
             bstr[k] = b1;
-            _i /= 10;
+            i_ /= 10;
         }
         return string(bstr);
     }
@@ -115,6 +115,6 @@ contract bulkNFT is ERC721URIStorage, Ownable {
 
     // update hash of folder that contains multiple metadata files, eg. <i>.json
     function setBaseURI(string memory folderHash) public onlyOwner {
-        _BaseURI = folderHash;
+        __baseURI = folderHash;
     }
 }
