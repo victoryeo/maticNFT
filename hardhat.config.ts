@@ -1,6 +1,7 @@
 import "@nomiclabs/hardhat-waffle";
 import "@nomiclabs/hardhat-ethers";
 import { task } from "hardhat/config";
+import { ethers } from "hardhat";
 
 // see https://hardhat.org/guides/create-task.html
 task("accounts", "Prints the list of accounts", async (args, hre) => {
@@ -9,6 +10,15 @@ task("accounts", "Prints the list of accounts", async (args, hre) => {
   for (const account of accounts) {
     console.log(account.address);
   }
+});
+
+task("deploy", "Deploy NFT contract").setAction(async (_, hre) => {
+  return hre.ethers
+    .getContractFactory("bulkNFT")
+    .then((contractFactory) => contractFactory.deploy())
+    .then((result) => {
+      console.log(`Contract address: ${result.address}`);
+    });
 });
 
 const { mnemonic, api_key } = require('./.secret.json');
