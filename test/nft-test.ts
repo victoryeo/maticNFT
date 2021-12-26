@@ -1,12 +1,26 @@
 const { expect } = require("chai");
-const { ethers } = require("hardhat");
+import { ethers, waffle } from 'hardhat';
+import { Contract, Wallet } from "ethers";
+import sinon from "sinon";
+import * as provider from '../lib/provider';
+import { TransactionResponse } from "@ethersproject/abstract-provider";
+import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers';
+
+function getTestWallet(): Wallet {
+  return waffle.provider.getWallets()[0];
+}
+
+function deployTestContract(name: string): Promise<Contract> {
+  return ethers.getContractFactory(name)
+    .then((contractFactory) => contractFactory.deploy());
+}
 
 describe("test NFT", function () {
   it("Should mint new NFT", async function () {
     const [owner] = await ethers.getSigners();
     console.log(owner.address)
 
-    const MaticNFT = await ethers.getContractFactory("maticNFT");
+    const MaticNFT = await ethers.getContractFactory("singleNFT");
     const maticNFT = await MaticNFT.deploy();
     await maticNFT.deployed();
 
@@ -39,4 +53,66 @@ describe("test NFT", function () {
     //console.log(mintNFT);
     expect(await mintNFT.blockHash).to.be.a('string');
   });
+})
+
+describe("mint NFT", function () {
+  let deployedContract: Contract;
+  let wallet: SignerWithAddress;
+  const TOKEN_URI = "QmXFfXGGsCPbpsjrAfAN4Dn8czJ8kAUpwASej3CUmo6k9k";
+
+  async function mintNftDefault(): Promise<TransactionResponse> {
+    return deployedContract.mintNFT(wallet.address, TOKEN_URI);
+  }
+
+  beforeEach(async () => {
+    //sinon.stub(provider, "getProvider").returns(waffle.provider);
+    [wallet] = await ethers.getSigners();
+    //const bulkNFT = await ethers.getContractFactory("bulkNFT");
+    //deployedContract = await bulkNFT.deploy();
+    //await deployedContract.deployed();
+    deployedContract = await deployTestContract("bulkNFT");
+  });
+
+  describe("mintNft", async () => {
+    it("emits the Transfer event", async () => {
+      await expect(mintNftDefault())
+        .to.emit(deployedContract, "Transfer")
+        .withArgs(ethers.constants.AddressZero, wallet.address, "1");
+    });
+
+    it("returns the new item ID", async () => {
+      await expect(
+        await deployedContract.callStatic.mintNFT(wallet.address, TOKEN_URI)
+      ).to.eq("1");
+    });
+
+    it("increments the item ID", async () => {
+      const STARTING_NEW_ITEM_ID = "1";
+      const NEXT_NEW_ITEM_ID = "2";
+
+      await expect(mintNftDefault())
+        .to.emit(deployedContract, "Transfer")
+        .withArgs(
+          ethers.constants.AddressZero,
+          wallet.address,
+          STARTING_NEW_ITEM_ID
+        );
+
+      await expect(mintNftDefault())
+        .to.emit(deployedContract, "Transfer")
+        .withArgs(
+          ethers.constants.AddressZero,
+          wallet.address,
+          NEXT_NEW_ITEM_ID
+        );
+    });
+
+    it("cannot mint to address zero", async () => {
+      const TX = deployedContract.mintNFT(
+        ethers.constants.AddressZero,
+        TOKEN_URI
+      );
+      await expect(TX).to.be.revertedWith("ERC721: mint to the zero address");
+    });
+  })
 });
