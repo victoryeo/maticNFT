@@ -55,7 +55,7 @@ contract bulkNFT is ERC721URIStorage, Ownable {
         return newItemId;
     }
 
-    function uint2str(uint i_) internal pure returns (string memory _uintAsString) {
+    function uint2str(uint i_) internal pure returns (string memory) {
         if (i_ == 0) {
             return "0";
         }
