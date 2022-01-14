@@ -115,4 +115,14 @@ describe("mint NFT", function () {
       await expect(TX).to.be.revertedWith("ERC721: mint to the zero address");
     });
   })
+
+  describe("balanceOf", () => {
+    it("gets the count of NFTs for this address", async () => {
+      await expect(await deployedContract.balanceOf(wallet.address)).to.eq("0");
+  
+      await mintNftDefault();
+  
+      expect(await deployedContract.balanceOf(wallet.address)).to.eq("1");
+    });
+  });
 });
