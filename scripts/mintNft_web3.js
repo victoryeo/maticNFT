@@ -90,16 +90,18 @@ async function bulkMintNFT(tokenURI) {
   try {
 
     // bulk minting
-    const addresses = ["0xE0f5206BBD039e7b0592d8918820024e2a7437b9",
-    "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245201",
-    "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245201",
-    "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245201",
-    "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245201",
-    "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245201",
-    "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245201",
-    "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245201",
-    "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245201",
-    "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245201"]
+    const addresses = [
+      "0xE0f5206BBD039e7b0592d8918820024e2a7437b9",
+      "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245201",
+      "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245202",
+      "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245203",
+      "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245204",
+      "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245205",
+      "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245206",
+      "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245207",
+      "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245208",
+      "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245209"
+    ]
     var getData = await nftInst.methods.mintManyNFT(addresses, tokenURI)
                 .send({from: accounts[0]})
     console.log(getData)
