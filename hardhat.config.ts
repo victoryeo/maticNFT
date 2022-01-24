@@ -12,7 +12,15 @@ const MATIC_API_URL=`https://rpc-mainnet.maticvigil.com/v1/${api_key}`;
  * @type import('hardhat/config').HardhatUserConfig
  */
 export default {
-  solidity: "0.8.0",
+  solidity: {
+    version: "0.8.0",
+    settings: {
+      optimizer: {
+        enabled: true,
+        runs: 200,
+      },
+    },
+  },
   defaultNetwork: "development",
   networks: {
     development: {
