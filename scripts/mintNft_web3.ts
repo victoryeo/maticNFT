@@ -76,7 +76,7 @@ async function bulkMintNFT(tokenURI:string) {
   
   //get latest nonce
   const nonce: number = await web3.eth.getTransactionCount(accounts[0], "latest")
-  console.log(nonce)
+  console.log(`nonce ${nonce}`)
 
   // parsing the data
   csvData.filter((item, i) => {
@@ -88,9 +88,11 @@ async function bulkMintNFT(tokenURI:string) {
       addresses[i] = processRE[2]
     
   })
-  console.log(addresses)
+  console.log(`address ${addresses}`)
 
   try {
+    const gasPrice = await web3.eth.getGasPrice();
+    console.log(`gasPrice ${gasPrice}`);
     // bulk minting
     let addressesii = [
       "0xE0f5206BBD039e7b0592d8918820024e2a7437b9",
@@ -103,14 +105,17 @@ async function bulkMintNFT(tokenURI:string) {
       "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245201",
       "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245201",
       "0x9106BcAFb5cdcbbA5bD0d98fBbf2d82fD4245201"]
-    //var getData0 = await nftInst.methods.mintManyNFT(addressesii, tokenURI)
-    //            .send({from: accounts[0]})
-    //console.log(getData0)
+    var getData0 = await nftInst.methods.mintManyNFT(addressesii, tokenURI)
+                .send({
+                  from: accounts[0], 
+                  //gasPrice: '2000000050'
+                })
+    console.log(getData0)
 
     // estimate gas
     var getData1 = await nftInst.methods.mintManyNFT(addressesii, tokenURI)
       .estimateGas({from: accounts[0]})
-    console.log(getData1)
+    console.log(`estimateGas ${getData1}`)
 
   } catch (err) {
     console.log(err)

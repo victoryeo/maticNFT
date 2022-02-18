@@ -4,3 +4,4 @@
 /cache
 .env
 .secret
+.secret.json
